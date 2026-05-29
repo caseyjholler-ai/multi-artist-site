@@ -131,22 +131,22 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
           background: '#e8e0d0',
           border: '1px solid #c8bfae',
           boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.15)',
-          zIndex: 11,
+          zIndex: 9,
           pointerEvents: 'none',
         }} />
       ))}
 
       {/* Margin doodles */}
-      <div style={{ position: 'fixed', left: '10px', top: '12%', zIndex: 9, pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', left: '10px', top: '12%', zIndex: 12, pointerEvents: 'none' }}>
         <SkullDoodle />
       </div>
-      <div style={{ position: 'fixed', left: '8px', top: '32%', zIndex: 9, pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', left: '8px', top: '32%', zIndex: 12, pointerEvents: 'none' }}>
         <RoseDoodle />
       </div>
-      <div style={{ position: 'fixed', left: '12px', top: '55%', zIndex: 9, pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', left: '12px', top: '55%', zIndex: 12, pointerEvents: 'none' }}>
         <DaggerDoodle />
       </div>
-      <div style={{ position: 'fixed', left: '9px', top: '73%', zIndex: 9, pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', left: '9px', top: '73%', zIndex: 12, pointerEvents: 'none' }}>
         <SnakeDoodle />
       </div>
 
