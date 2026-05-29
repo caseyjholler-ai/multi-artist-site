@@ -30,14 +30,25 @@ export default async function HomePage() {
       overflow: 'hidden',
     }}>
 
+      {/* Noise grain overlay */}
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: '180px 180px',
+        opacity: 0.035,
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
       {/* Rose glow — left */}
       <div style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '55%',
+        top: 0, left: 0,
+        width: '60%',
         height: '100%',
-        background: 'radial-gradient(ellipse at 25% 55%, #6a0d8840 0%, transparent 65%)',
+        background: 'radial-gradient(ellipse at 20% 50%, #7a1a9960 0%, #4a0a6630 40%, transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0,
       }} />
@@ -45,11 +56,10 @@ export default async function HomePage() {
       {/* Cody glow — right */}
       <div style={{
         position: 'fixed',
-        top: 0,
-        right: 0,
-        width: '55%',
+        top: 0, right: 0,
+        width: '60%',
         height: '100%',
-        background: 'radial-gradient(ellipse at 75% 55%, #7a5a2028 0%, transparent 65%)',
+        background: 'radial-gradient(ellipse at 80% 50%, #c8782050 0%, #9a5a1835 40%, transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0,
       }} />
@@ -57,10 +67,7 @@ export default async function HomePage() {
       {/* Architectural frame */}
       <div style={{
         position: 'fixed',
-        top: '16px',
-        left: '16px',
-        right: '16px',
-        bottom: '16px',
+        top: '16px', left: '16px', right: '16px', bottom: '16px',
         border: '0.5px solid rgba(255,255,255,0.07)',
         borderRadius: '12px',
         pointerEvents: 'none',
@@ -76,10 +83,10 @@ export default async function HomePage() {
           bottom: pos.startsWith('b') ? '16px' : undefined,
           left: pos.endsWith('l') ? '16px' : undefined,
           right: pos.endsWith('r') ? '16px' : undefined,
-          borderTop: pos.startsWith('t') ? '1px solid rgba(255,255,255,0.18)' : undefined,
-          borderBottom: pos.startsWith('b') ? '1px solid rgba(255,255,255,0.18)' : undefined,
-          borderLeft: pos.endsWith('l') ? '1px solid rgba(255,255,255,0.18)' : undefined,
-          borderRight: pos.endsWith('r') ? '1px solid rgba(255,255,255,0.18)' : undefined,
+          borderTop: pos.startsWith('t') ? '1px solid rgba(255,255,255,0.2)' : undefined,
+          borderBottom: pos.startsWith('b') ? '1px solid rgba(255,255,255,0.2)' : undefined,
+          borderLeft: pos.endsWith('l') ? '1px solid rgba(255,255,255,0.2)' : undefined,
+          borderRight: pos.endsWith('r') ? '1px solid rgba(255,255,255,0.2)' : undefined,
           pointerEvents: 'none',
           zIndex: 1,
         }} />
@@ -92,28 +99,30 @@ export default async function HomePage() {
         <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <h1 style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: 'clamp(28px, 5vw, 42px)',
+            fontSize: 'clamp(32px, 5vw, 48px)',
             fontWeight: 700,
             letterSpacing: '0.14em',
-            color: '#e8e0d0',
+            color: '#f5ead8',
+            textShadow: '0 0 40px rgba(245, 220, 180, 0.25), 0 2px 8px rgba(0,0,0,0.6)',
             textTransform: 'uppercase',
-            margin: '0 0 8px',
+            margin: '0 0 10px',
           }}>
             ArtistShop
           </h1>
           <p style={{
             fontSize: '11px',
-            color: '#555',
-            letterSpacing: '0.25em',
+            color: '#c8b898',
+            letterSpacing: '0.28em',
             textTransform: 'uppercase',
-            margin: '0 0 16px',
+            margin: '0 0 18px',
+            textShadow: '0 1px 4px rgba(0,0,0,0.5)',
           }}>
             An independent art collective
           </p>
           <div style={{
             width: '36px',
             height: '0.5px',
-            background: '#333',
+            background: 'rgba(200,184,152,0.3)',
             margin: '0 auto',
           }} />
         </header>
@@ -139,7 +148,7 @@ export default async function HomePage() {
           }} />
           <span style={{
             fontSize: '10px',
-            color: '#333',
+            color: '#444',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
           }}>
@@ -165,7 +174,7 @@ export default async function HomePage() {
         }
         .card-rose:hover {
           transform: translateY(-4px);
-          box-shadow: 0 12px 40px rgba(180, 0, 200, 0.18);
+          box-shadow: 0 12px 40px rgba(180, 0, 200, 0.22);
         }
 
         .card-sketchbook {
@@ -177,7 +186,7 @@ export default async function HomePage() {
         }
         .card-sketchbook:hover {
           transform: translateY(-4px);
-          box-shadow: 0 12px 40px rgba(120, 90, 40, 0.15);
+          box-shadow: 0 12px 40px rgba(180, 110, 20, 0.22);
         }
 
         .enter-arrow {
@@ -199,7 +208,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
     return (
       <Link href={`/artists/${artist.slug}`} className="artist-card-link">
         <div className="card-rose">
-          {/* Header */}
           <div style={{ padding: '1.25rem 1.25rem 0.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
               <span style={{ fontSize: '18px', color: '#cc55ff', opacity: 0.5 }}>✦</span>
@@ -227,7 +235,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
             </p>
           </div>
 
-          {/* Image area */}
           <div style={{
             height: '160px',
             background: '#1e1228',
@@ -240,7 +247,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
             position: 'relative',
             overflow: 'hidden',
           }}>
-            {/* Gothic corner brackets */}
             {(['tl','tr','bl','br'] as const).map((pos) => (
               <div key={pos} style={{
                 position: 'absolute',
@@ -265,7 +271,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
             }} />
           </div>
 
-          {/* Footer */}
           <div style={{
             padding: '0.5rem 1.25rem 1.1rem',
             display: 'flex',
@@ -289,11 +294,9 @@ function ArtistCard({ artist }: { artist: Artist }) {
     )
   }
 
-  // Sketchbook / Cody
   return (
     <Link href={`/artists/${artist.slug}`} className="artist-card-link">
       <div className="card-sketchbook">
-        {/* Header */}
         <div style={{ padding: '1.25rem 1.25rem 0.5rem', background: '#f5f0e8' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
             <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
@@ -329,7 +332,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
           </p>
         </div>
 
-        {/* Image area */}
         <div style={{
           height: '160px',
           background: '#ece7da',
@@ -343,7 +345,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
           position: 'relative',
           overflow: 'hidden',
         }}>
-          {/* Ruled lines */}
           {[0,1,2,3,4,5,6].map(i => (
             <div key={i} style={{
               position: 'absolute',
@@ -378,7 +379,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
           ))}
         </div>
 
-        {/* Footer */}
         <div style={{
           padding: '0.5rem 1.25rem 1.1rem',
           display: 'flex',
