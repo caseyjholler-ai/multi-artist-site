@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import ArtistFlashWall from './ArtistFlashWall'
 
@@ -7,13 +7,20 @@ export default async function ArtistPage({
 }: {
   params: { slug: string }
 }) {
-  const { data: artist } = await supabase
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  const supabase = createClient(supabaseUrl, supabaseKey)
+
+  const { data: artist, error: artistError } = await supabase
     .from('artists')
     .select('*')
     .eq('slug', params.slug)
     .single()
 
-  if (!artist) notFound()
+  if (artistError || !artist) {
+    console.error('Artist not found:', params.slug, artistError)
+    notFound()
+  }
 
   const { data: artworks } = await supabase
     .from('artworks')
