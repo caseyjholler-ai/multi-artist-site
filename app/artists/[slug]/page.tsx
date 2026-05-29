@@ -5,8 +5,10 @@ import ArtistFlashWall from './ArtistFlashWall'
 export default async function ArtistPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
+  const { slug } = await params
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   const supabase = createClient(supabaseUrl, supabaseKey)
@@ -14,11 +16,11 @@ export default async function ArtistPage({
   const { data: artist, error: artistError } = await supabase
     .from('artists')
     .select('*')
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .single()
 
   if (artistError || !artist) {
-    console.error('Artist not found:', params.slug, artistError)
+    console.error('Artist not found:', slug, artistError)
     notFound()
   }
 
