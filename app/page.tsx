@@ -10,11 +10,32 @@ interface Artist {
   theme: string | null
 }
 
+interface Artwork {
+  id: number
+  artist_id: number
+  title: string
+  price: number
+  image_url: string | null
+  status: string
+}
+
 export default async function HomePage() {
   const { data: artists } = await supabase
     .from('artists')
     .select('*')
     .order('id')
+
+  const { data: artworks } = await supabase
+    .from('artworks')
+    .select('*')
+    .eq('status', 'available')
+    .order('id')
+
+  const artworksByArtist = (artworks ?? []).reduce((acc: Record<number, Artwork[]>, aw: Artwork) => {
+    if (!acc[aw.artist_id]) acc[aw.artist_id] = []
+    acc[aw.artist_id].push(aw)
+    return acc
+  }, {})
 
   return (
     <main style={{
@@ -73,7 +94,6 @@ export default async function HomePage() {
         pointerEvents: 'none',
         zIndex: 0,
       }} />
-      {/* Corner accents */}
       {(['tl','tr','bl','br'] as const).map((pos) => (
         <div key={pos} style={{
           position: 'fixed',
@@ -134,7 +154,11 @@ export default async function HomePage() {
           gap: '1.25rem',
         }}>
           {(artists ?? []).map((artist: Artist) => (
-            <ArtistCard key={artist.id} artist={artist} />
+            <ArtistCard
+              key={artist.id}
+              artist={artist}
+              artworks={artworksByArtist[artist.id] ?? []}
+            />
           ))}
         </div>
 
@@ -143,14 +167,15 @@ export default async function HomePage() {
           <div style={{
             width: '100%',
             height: '0.5px',
-            background: 'rgba(255,255,255,0.05)',
+            background: 'rgba(200,184,152,0.15)',
             marginBottom: '14px',
           }} />
           <span style={{
             fontSize: '10px',
-            color: '#444',
-            letterSpacing: '0.25em',
+            color: '#c8b898',
+            letterSpacing: '0.28em',
             textTransform: 'uppercase',
+            textShadow: '0 1px 4px rgba(0,0,0,0.5)',
           }}>
             Handmade · Independent · Yours
           </span>
@@ -189,6 +214,13 @@ export default async function HomePage() {
           box-shadow: 0 12px 40px rgba(180, 110, 20, 0.22);
         }
 
+        .artwork-preview-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
         .enter-arrow {
           display: inline-block;
           transition: transform 0.2s ease;
@@ -201,8 +233,11 @@ export default async function HomePage() {
   )
 }
 
-function ArtistCard({ artist }: { artist: Artist }) {
+function ArtistCard({ artist, artworks }: { artist: Artist; artworks: Artwork[] }) {
   const isGothic = artist.theme === 'gothic'
+  const previewImage = artworks[0]?.image_url ?? null
+  const pieceCount = artworks.length
+  const pieceLabel = `${pieceCount} ${pieceCount === 1 ? 'piece' : 'pieces'} available`
 
   if (isGothic) {
     return (
@@ -235,6 +270,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
             </p>
           </div>
 
+          {/* Image area */}
           <div style={{
             height: '160px',
             background: '#1e1228',
@@ -247,6 +283,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
             position: 'relative',
             overflow: 'hidden',
           }}>
+            {/* Gothic corner brackets — always on top of image */}
             {(['tl','tr','bl','br'] as const).map((pos) => (
               <div key={pos} style={{
                 position: 'absolute',
@@ -256,19 +293,28 @@ function ArtistCard({ artist }: { artist: Artist }) {
                 bottom: pos.startsWith('b') ? '8px' : undefined,
                 left: pos.endsWith('l') ? '8px' : undefined,
                 right: pos.endsWith('r') ? '8px' : undefined,
-                borderTop: pos.startsWith('t') ? '1.5px solid rgba(204,85,255,0.7)' : undefined,
-                borderBottom: pos.startsWith('b') ? '1.5px solid rgba(204,85,255,0.7)' : undefined,
-                borderLeft: pos.endsWith('l') ? '1.5px solid rgba(204,85,255,0.7)' : undefined,
-                borderRight: pos.endsWith('r') ? '1.5px solid rgba(204,85,255,0.7)' : undefined,
+                borderTop: pos.startsWith('t') ? '1.5px solid rgba(204,85,255,0.8)' : undefined,
+                borderBottom: pos.startsWith('b') ? '1.5px solid rgba(204,85,255,0.8)' : undefined,
+                borderLeft: pos.endsWith('l') ? '1.5px solid rgba(204,85,255,0.8)' : undefined,
+                borderRight: pos.endsWith('r') ? '1.5px solid rgba(204,85,255,0.8)' : undefined,
+                zIndex: 2,
               }} />
             ))}
-            <div style={{
-              width: '64px',
-              height: '80px',
-              background: '#3a1f4a',
-              borderRadius: '3px',
-              border: '1px solid rgba(204,85,255,0.3)',
-            }} />
+            {previewImage ? (
+              <img
+                src={previewImage}
+                alt={artworks[0]?.title ?? artist.name}
+                className="artwork-preview-img"
+              />
+            ) : (
+              <div style={{
+                width: '64px',
+                height: '80px',
+                background: '#3a1f4a',
+                borderRadius: '3px',
+                border: '1px solid rgba(204,85,255,0.3)',
+              }} />
+            )}
           </div>
 
           <div style={{
@@ -278,7 +324,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
             alignItems: 'center',
           }}>
             <span style={{ fontSize: '11px', color: '#906aaa', letterSpacing: '0.08em' }}>
-              1 piece available
+              {pieceLabel}
             </span>
             <span style={{
               fontSize: '11px',
@@ -294,6 +340,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
     )
   }
 
+  // Sketchbook / Cody
   return (
     <Link href={`/artists/${artist.slug}`} className="artist-card-link">
       <div className="card-sketchbook">
@@ -332,6 +379,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
           </p>
         </div>
 
+        {/* Image area */}
         <div style={{
           height: '160px',
           background: '#ece7da',
@@ -345,6 +393,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
           position: 'relative',
           overflow: 'hidden',
         }}>
+          {/* Ruled lines */}
           {[0,1,2,3,4,5,6].map(i => (
             <div key={i} style={{
               position: 'absolute',
@@ -352,31 +401,43 @@ function ArtistCard({ artist }: { artist: Artist }) {
               top: `${20 + i * 20}px`,
               height: '0.5px',
               background: 'rgba(180,175,160,0.5)',
+              zIndex: 0,
             }} />
           ))}
-          {[0,1].map(i => (
-            <div key={i} style={{
-              width: '46px',
-              height: '62px',
-              background: '#f5f0e8',
-              borderRadius: '2px',
-              border: '0.5px solid #b8b2a5',
-              position: 'relative',
-              zIndex: 1,
-              marginTop: i === 1 ? '14px' : '0',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <div style={{
-                width: '22px', height: '22px',
-                border: '1px solid #c8c2b5',
-                borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '10px', color: '#c8c2b5',
-              }}>×</div>
-            </div>
-          ))}
+          {previewImage ? (
+            <img
+              src={previewImage}
+              alt={artworks[0]?.title ?? artist.name}
+              className="artwork-preview-img"
+              style={{ position: 'relative', zIndex: 1 }}
+            />
+          ) : (
+            <>
+              {[0,1].map(i => (
+                <div key={i} style={{
+                  width: '46px',
+                  height: '62px',
+                  background: '#f5f0e8',
+                  borderRadius: '2px',
+                  border: '0.5px solid #b8b2a5',
+                  position: 'relative',
+                  zIndex: 1,
+                  marginTop: i === 1 ? '14px' : '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <div style={{
+                    width: '22px', height: '22px',
+                    border: '1px solid #c8c2b5',
+                    borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '10px', color: '#c8c2b5',
+                  }}>×</div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
 
         <div style={{
@@ -387,7 +448,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
           background: '#f5f0e8',
         }}>
           <span style={{ fontSize: '11px', color: '#888070', letterSpacing: '0.08em' }}>
-            2 pieces available
+            {pieceLabel}
           </span>
           <span style={{
             fontSize: '11px',
