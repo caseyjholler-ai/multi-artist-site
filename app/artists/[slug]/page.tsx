@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import ArtistFlashWall from './ArtistFlashWall'
+import ArtistGothicGallery from './ArtistGothicGallery'
 
 export default async function ArtistPage({
   params,
@@ -30,6 +31,18 @@ export default async function ArtistPage({
     .eq('artist_id', artist.id)
     .eq('status', 'available')
     .order('created_at', { ascending: true })
+
+  const theme = artist.theme ?? 'sketchbook'
+
+  if (theme === 'gothic') {
+    return (
+      <ArtistGothicGallery
+        artistName={artist.name}
+        artistBio={artist.bio}
+        artworks={artworks ?? []}
+      />
+    )
+  }
 
   return (
     <ArtistFlashWall
