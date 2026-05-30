@@ -18,6 +18,61 @@ interface Props {
   artworks: Artwork[]
 }
 
+// SVG doodles
+const SkullDoodle = () => (
+  <svg width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
+    <ellipse cx="18" cy="17" rx="13" ry="14" stroke="#1a1a1a" strokeWidth="1.5"/>
+    <rect x="10" y="28" width="16" height="10" rx="2" stroke="#1a1a1a" strokeWidth="1.5"/>
+    <line x1="18" y1="28" x2="18" y2="38" stroke="#1a1a1a" strokeWidth="1.2"/>
+    <line x1="10" y1="33" x2="26" y2="33" stroke="#1a1a1a" strokeWidth="1.2"/>
+    <circle cx="13" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
+    <circle cx="23" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
+    <path d="M15 23 Q18 26 21 23" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+  </svg>
+)
+
+const RoseDoodle = () => (
+  <svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
+    <line x1="16" y1="20" x2="16" y2="48" stroke="#1a1a1a" strokeWidth="1.5"/>
+    <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+    <path d="M12 28 Q8 26 10 30" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+    <path d="M20 34 Q24 32 22 36" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+  </svg>
+)
+
+const DaggerDoodle = () => (
+  <svg width="24" height="56" viewBox="0 0 24 56" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
+    <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="#1a1a1a" strokeWidth="1.3" fill="none"/>
+    <rect x="6" y="14" width="12" height="4" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
+    <rect x="9" y="18" width="6" height="8" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
+  </svg>
+)
+
+const SnakeDoodle = () => (
+  <svg width="30" height="60" viewBox="0 0 30 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
+    <path d="M15 55 Q5 48 15 40 Q25 32 15 24 Q5 16 15 8 Q20 4 22 8" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
+    <ellipse cx="22" cy="6" rx="4" ry="3" stroke="#1a1a1a" strokeWidth="1.2"/>
+    <path d="M20 4 L18 2 M24 4 L26 2" stroke="#1a1a1a" strokeWidth="1"/>
+    <circle cx="21" cy="6" r="1" fill="#1a1a1a"/>
+  </svg>
+)
+
+// One doodle per slot, cycling through 4
+const DOODLES = [SkullDoodle, RoseDoodle, DaggerDoodle, SnakeDoodle]
+
+// PunchHole component
+const PunchHole = () => (
+  <div style={{
+    width: '28px',
+    height: '28px',
+    borderRadius: '50%',
+    background: '#e8e0d0',
+    border: '1px solid #c8bfae',
+    boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.15)',
+    margin: '0 auto',
+  }} />
+)
+
 export default function ArtistFlashWall({ artistName, artistBio, artworks }: Props) {
   const [openId, setOpenId] = useState<number | null>(null)
   const [loadingId, setLoadingId] = useState<number | null>(null)
@@ -49,44 +104,34 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
     }
   }
 
-  // SVG doodles for margins
-  const SkullDoodle = () => (
-    <svg width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.18}}>
-      <ellipse cx="18" cy="17" rx="13" ry="14" stroke="#1a1a1a" strokeWidth="1.5"/>
-      <rect x="10" y="28" width="16" height="10" rx="2" stroke="#1a1a1a" strokeWidth="1.5"/>
-      <line x1="18" y1="28" x2="18" y2="38" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <line x1="10" y1="33" x2="26" y2="33" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <circle cx="13" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <circle cx="23" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <path d="M15 23 Q18 26 21 23" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-    </svg>
+  // Build margin column: header gets first hole, then each artwork
+  // gets: hole → doodle → hole
+  // Pattern repeats: skull, rose, dagger, snake, skull, rose...
+  const marginItems: React.ReactNode[] = []
+
+  // Top hole (before header)
+  marginItems.push(
+    <div key="top-hole" style={{ padding: '20px 0 16px' }}>
+      <PunchHole />
+    </div>
   )
 
-  const RoseDoodle = () => (
-    <svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.18}}>
-      <line x1="16" y1="20" x2="16" y2="48" stroke="#1a1a1a" strokeWidth="1.5"/>
-      <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-      <path d="M12 28 Q8 26 10 30" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-      <path d="M20 34 Q24 32 22 36" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-    </svg>
-  )
-
-  const DaggerDoodle = () => (
-    <svg width="24" height="56" viewBox="0 0 24 56" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.18}}>
-      <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="#1a1a1a" strokeWidth="1.3" fill="none"/>
-      <rect x="6" y="14" width="12" height="4" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
-      <rect x="9" y="18" width="6" height="8" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
-    </svg>
-  )
-
-  const SnakeDoodle = () => (
-    <svg width="30" height="60" viewBox="0 0 30 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.18}}>
-      <path d="M15 55 Q5 48 15 40 Q25 32 15 24 Q5 16 15 8 Q20 4 22 8" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-      <ellipse cx="22" cy="6" rx="4" ry="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <path d="M20 4 L18 2 M24 4 L26 2" stroke="#1a1a1a" strokeWidth="1"/>
-      <circle cx="21" cy="6" r="1" fill="#1a1a1a"/>
-    </svg>
-  )
+  // One margin unit per artwork
+  artworks.forEach((artwork, i) => {
+    const Doodle = DOODLES[i % DOODLES.length]
+    marginItems.push(
+      <div key={`unit-${artwork.id}`} style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '24px 0',
+      }}>
+        <Doodle />
+        <PunchHole />
+      </div>
+    )
+  })
 
   return (
     <div style={{
@@ -104,56 +149,37 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
       backgroundPosition: '0 60px',
       position: 'relative',
       fontFamily: '"Courier New", Courier, monospace',
+      display: 'flex',
     }}>
 
-      {/* Red margin line */}
+      {/* Left margin column — scrolls with page */}
       <div style={{
-        position: 'fixed',
-        left: '72px',
-        top: 0,
-        bottom: 0,
-        width: '2px',
-        background: '#c0392b',
-        opacity: 0.5,
-        zIndex: 10,
-        pointerEvents: 'none',
-      }} />
-
-      {/* Punch holes */}
-      {[15, 35, 55, 75].map(pct => (
-        <div key={pct} style={{
-          position: 'fixed',
-          left: '18px',
-          top: `${pct}%`,
-          width: '28px',
-          height: '28px',
-          borderRadius: '50%',
-          background: '#e8e0d0',
-          border: '1px solid #c8bfae',
-          boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.15)',
-          zIndex: 9,
-          pointerEvents: 'none',
+        width: '72px',
+        flexShrink: 0,
+        position: 'relative',
+        zIndex: 2,
+      }}>
+        {/* Red margin line */}
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: '2px',
+          background: '#c0392b',
+          opacity: 0.5,
         }} />
-      ))}
-
-      {/* Margin doodles — right side */}
-      <div style={{ position: 'fixed', right: '14px', top: '12%', zIndex: 12, pointerEvents: 'none' }}>
-        <SkullDoodle />
-      </div>
-      <div style={{ position: 'fixed', right: '16px', top: '32%', zIndex: 12, pointerEvents: 'none' }}>
-        <RoseDoodle />
-      </div>
-      <div style={{ position: 'fixed', right: '18px', top: '55%', zIndex: 12, pointerEvents: 'none' }}>
-        <DaggerDoodle />
-      </div>
-      <div style={{ position: 'fixed', right: '15px', top: '73%', zIndex: 12, pointerEvents: 'none' }}>
-        <SnakeDoodle />
+        {/* Scrolling holes and doodles */}
+        <div style={{ paddingLeft: '8px' }}>
+          {marginItems}
+        </div>
       </div>
 
       {/* Main content */}
       <div style={{
-        marginLeft: '96px',
-        marginRight: '24px',
+        flex: 1,
+        paddingLeft: '24px',
+        paddingRight: '24px',
         paddingTop: '48px',
         paddingBottom: '80px',
         maxWidth: '760px',
@@ -229,8 +255,9 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                       style={{
                         width: '100%',
                         aspectRatio: '4/3',
-                        objectFit: 'cover',
+                        objectFit: 'contain',
                         display: 'block',
+                        background: '#faf7f2',
                       }}
                     />
                   )}
