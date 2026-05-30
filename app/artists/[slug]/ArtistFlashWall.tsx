@@ -18,59 +18,70 @@ interface Props {
   artworks: Artwork[]
 }
 
-// SVG doodles
-const SkullDoodle = () => (
-  <svg width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
-    <ellipse cx="18" cy="17" rx="13" ry="14" stroke="#1a1a1a" strokeWidth="1.5"/>
-    <rect x="10" y="28" width="16" height="10" rx="2" stroke="#1a1a1a" strokeWidth="1.5"/>
-    <line x1="18" y1="28" x2="18" y2="38" stroke="#1a1a1a" strokeWidth="1.2"/>
-    <line x1="10" y1="33" x2="26" y2="33" stroke="#1a1a1a" strokeWidth="1.2"/>
-    <circle cx="13" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-    <circle cx="23" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-    <path d="M15 23 Q18 26 21 23" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+// SVG tile for the margin — one repeating unit:
+// hole → skull → hole → rose → hole → dagger → hole → snake
+// Each unit is 480px tall, tiling vertically forever
+const MARGIN_TILE_HEIGHT = 480
+
+const MarginTileSVG = () => (
+  <svg
+    width="56"
+    height={MARGIN_TILE_HEIGHT}
+    viewBox={`0 0 56 ${MARGIN_TILE_HEIGHT}`}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ display: 'block' }}
+  >
+    {/* ── Hole 1 at y=20 ── */}
+    <circle cx="28" cy="30" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
+    <circle cx="28" cy="30" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
+
+    {/* ── Skull at y=80 ── */}
+    <g transform="translate(10, 80)" opacity="0.22">
+      <ellipse cx="18" cy="17" rx="13" ry="14" stroke="#1a1a1a" strokeWidth="1.5"/>
+      <rect x="10" y="28" width="16" height="10" rx="2" stroke="#1a1a1a" strokeWidth="1.5"/>
+      <line x1="18" y1="28" x2="18" y2="38" stroke="#1a1a1a" strokeWidth="1.2"/>
+      <line x1="10" y1="33" x2="26" y2="33" stroke="#1a1a1a" strokeWidth="1.2"/>
+      <circle cx="13" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
+      <circle cx="23" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
+      <path d="M15 23 Q18 26 21 23" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+    </g>
+
+    {/* ── Hole 2 at y=150 ── */}
+    <circle cx="28" cy="150" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
+    <circle cx="28" cy="150" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
+
+    {/* ── Rose at y=200 ── */}
+    <g transform="translate(12, 200)" opacity="0.22">
+      <line x1="16" y1="20" x2="16" y2="58" stroke="#1a1a1a" strokeWidth="1.5"/>
+      <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+      <path d="M12 32 Q8 30 10 34" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+      <path d="M20 44 Q24 42 22 46" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
+    </g>
+
+    {/* ── Hole 3 at y=280 ── */}
+    <circle cx="28" cy="280" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
+    <circle cx="28" cy="280" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
+
+    {/* ── Dagger at y=318 ── */}
+    <g transform="translate(16, 318)" opacity="0.22">
+      <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="#1a1a1a" strokeWidth="1.3" fill="none"/>
+      <rect x="6" y="14" width="12" height="4" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
+      <rect x="9" y="18" width="6" height="8" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
+    </g>
+
+    {/* ── Hole 4 at y=400 ── */}
+    <circle cx="28" cy="400" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
+    <circle cx="28" cy="400" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
+
+    {/* ── Snake at y=425 ── */}
+    <g transform="translate(13, 425)" opacity="0.22">
+      <path d="M15 50 Q5 43 15 35 Q25 27 15 19 Q5 11 15 3 Q20 -1 22 3" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="22" cy="1" rx="4" ry="3" stroke="#1a1a1a" strokeWidth="1.2"/>
+      <path d="M20 -1 L18 -3 M24 -1 L26 -3" stroke="#1a1a1a" strokeWidth="1"/>
+      <circle cx="21" cy="1" r="1" fill="#1a1a1a"/>
+    </g>
   </svg>
-)
-
-const RoseDoodle = () => (
-  <svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
-    <line x1="16" y1="20" x2="16" y2="48" stroke="#1a1a1a" strokeWidth="1.5"/>
-    <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-    <path d="M12 28 Q8 26 10 30" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-    <path d="M20 34 Q24 32 22 36" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-  </svg>
-)
-
-const DaggerDoodle = () => (
-  <svg width="24" height="56" viewBox="0 0 24 56" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
-    <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="#1a1a1a" strokeWidth="1.3" fill="none"/>
-    <rect x="6" y="14" width="12" height="4" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
-    <rect x="9" y="18" width="6" height="8" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
-  </svg>
-)
-
-const SnakeDoodle = () => (
-  <svg width="30" height="60" viewBox="0 0 30 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity:0.22}}>
-    <path d="M15 55 Q5 48 15 40 Q25 32 15 24 Q5 16 15 8 Q20 4 22 8" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <ellipse cx="22" cy="6" rx="4" ry="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-    <path d="M20 4 L18 2 M24 4 L26 2" stroke="#1a1a1a" strokeWidth="1"/>
-    <circle cx="21" cy="6" r="1" fill="#1a1a1a"/>
-  </svg>
-)
-
-// One doodle per slot, cycling through 4
-const DOODLES = [SkullDoodle, RoseDoodle, DaggerDoodle, SnakeDoodle]
-
-// PunchHole component
-const PunchHole = () => (
-  <div style={{
-    width: '28px',
-    height: '28px',
-    borderRadius: '50%',
-    background: '#e8e0d0',
-    border: '1px solid #c8bfae',
-    boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.15)',
-    margin: '0 auto',
-  }} />
 )
 
 export default function ArtistFlashWall({ artistName, artistBio, artworks }: Props) {
@@ -104,35 +115,6 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
     }
   }
 
-  // Build margin column: header gets first hole, then each artwork
-  // gets: hole → doodle → hole
-  // Pattern repeats: skull, rose, dagger, snake, skull, rose...
-  const marginItems: React.ReactNode[] = []
-
-  // Top hole (before header)
-  marginItems.push(
-    <div key="top-hole" style={{ padding: '20px 0 16px' }}>
-      <PunchHole />
-    </div>
-  )
-
-  // One margin unit per artwork
-  artworks.forEach((artwork, i) => {
-    const Doodle = DOODLES[i % DOODLES.length]
-    marginItems.push(
-      <div key={`unit-${artwork.id}`} style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '24px 0',
-      }}>
-        <Doodle />
-        <PunchHole />
-      </div>
-    )
-  })
-
   return (
     <div style={{
       minHeight: '100vh',
@@ -152,11 +134,12 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
       display: 'flex',
     }}>
 
-      {/* Left margin column — scrolls with page */}
+      {/* Left margin column — CSS tiling, fills full page height */}
       <div style={{
         width: '72px',
         flexShrink: 0,
         position: 'relative',
+        alignSelf: 'stretch',
         zIndex: 2,
       }}>
         {/* Red margin line */}
@@ -169,10 +152,52 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
           background: '#c0392b',
           opacity: 0.5,
         }} />
-        {/* Scrolling holes and doodles */}
-        <div style={{ paddingLeft: '8px' }}>
-          {marginItems}
-        </div>
+        {/* Tiling SVG background — repeats forever down the page */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: '2px',
+          bottom: 0,
+          backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(`<svg width="56" height="${MARGIN_TILE_HEIGHT}" viewBox="0 0 56 ${MARGIN_TILE_HEIGHT}" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="28" cy="30" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
+  <circle cx="28" cy="30" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+  <g transform="translate(10,80)" opacity="0.22">
+    <ellipse cx="18" cy="17" rx="13" ry="14" stroke="%231a1a1a" stroke-width="1.5"/>
+    <rect x="10" y="28" width="16" height="10" rx="2" stroke="%231a1a1a" stroke-width="1.5"/>
+    <line x1="18" y1="28" x2="18" y2="38" stroke="%231a1a1a" stroke-width="1.2"/>
+    <line x1="10" y1="33" x2="26" y2="33" stroke="%231a1a1a" stroke-width="1.2"/>
+    <circle cx="13" cy="16" r="3" stroke="%231a1a1a" stroke-width="1.2"/>
+    <circle cx="23" cy="16" r="3" stroke="%231a1a1a" stroke-width="1.2"/>
+    <path d="M15 23 Q18 26 21 23" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
+  </g>
+  <circle cx="28" cy="150" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
+  <circle cx="28" cy="150" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+  <g transform="translate(12,200)" opacity="0.22">
+    <line x1="16" y1="20" x2="16" y2="58" stroke="%231a1a1a" stroke-width="1.5"/>
+    <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
+    <path d="M12 32 Q8 30 10 34" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
+    <path d="M20 44 Q24 42 22 46" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
+  </g>
+  <circle cx="28" cy="280" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
+  <circle cx="28" cy="280" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+  <g transform="translate(16,318)" opacity="0.22">
+    <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="%231a1a1a" stroke-width="1.3" fill="none"/>
+    <rect x="6" y="14" width="12" height="4" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>
+    <rect x="9" y="18" width="6" height="8" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>
+  </g>
+  <circle cx="28" cy="400" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
+  <circle cx="28" cy="400" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+  <g transform="translate(13,425)" opacity="0.22">
+    <path d="M15 50 Q5 43 15 35 Q25 27 15 19 Q5 11 15 3 Q20 -1 22 3" stroke="%231a1a1a" stroke-width="1.5" fill="none"/>
+    <ellipse cx="22" cy="1" rx="4" ry="3" stroke="%231a1a1a" stroke-width="1.2"/>
+    <circle cx="21" cy="1" r="1" fill="%231a1a1a"/>
+  </g>
+</svg>`)}`)`,
+          backgroundRepeat: 'repeat-y',
+          backgroundSize: `56px ${MARGIN_TILE_HEIGHT}px`,
+          backgroundPosition: '0 0',
+        }} />
       </div>
 
       {/* Main content */}
@@ -198,18 +223,9 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
           }}>
             ✦ {artistName} ✦
           </h1>
-          <div style={{
-            height: '2px',
-            background: '#1a1a1a',
-            marginBottom: '8px',
-          }} />
+          <div style={{ height: '2px', background: '#1a1a1a', marginBottom: '8px' }} />
           {artistBio && (
-            <p style={{
-              fontSize: '0.85rem',
-              color: '#444',
-              fontStyle: 'italic',
-              letterSpacing: '0.04em',
-            }}>
+            <p style={{ fontSize: '0.85rem', color: '#444', fontStyle: 'italic', letterSpacing: '0.04em' }}>
               {artistBio}
             </p>
           )}
@@ -221,7 +237,6 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
         ) : (
           artworks.map((artwork, index) => (
             <div key={artwork.id}>
-              {/* Frame card */}
               <div
                 onClick={() => setOpenId(openId === artwork.id ? null : artwork.id)}
                 style={{
@@ -243,11 +258,7 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                   ;(e.currentTarget as HTMLDivElement).style.boxShadow = '4px 4px 0 #1a1a1a'
                 }}
               >
-                {/* Inner frame */}
-                <div style={{
-                  border: '1px solid #8a7a6a',
-                  padding: '8px',
-                }}>
+                <div style={{ border: '1px solid #8a7a6a', padding: '8px' }}>
                   {artwork.image_url && (
                     <img
                       src={artwork.image_url}
@@ -262,8 +273,6 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                     />
                   )}
                 </div>
-
-                {/* Card label */}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -281,7 +290,6 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                 </div>
               </div>
 
-              {/* Expanded buy panel */}
               {openId === artwork.id && (
                 <div style={{
                   marginBottom: '16px',
@@ -292,13 +300,7 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                   boxShadow: '4px 4px 0 #1a1a1a',
                 }}>
                   <div style={{ marginBottom: '12px' }}>
-                    <span style={{
-                      fontSize: '1.4rem',
-                      fontWeight: 'bold',
-                      color: '#1a1a1a',
-                      display: 'block',
-                      marginBottom: '4px',
-                    }}>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#1a1a1a', display: 'block', marginBottom: '4px' }}>
                       ${artwork.price}
                     </span>
                     {artwork.description && (
@@ -319,12 +321,8 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                       {artwork.type}
                     </span>
                   </div>
-
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleBuy(artwork)
-                    }}
+                    onClick={(e) => { e.stopPropagation(); handleBuy(artwork) }}
                     disabled={loadingId === artwork.id}
                     style={{
                       width: '100%',
@@ -343,8 +341,6 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                   >
                     {loadingId === artwork.id ? 'Redirecting to checkout...' : `Buy Now — $${artwork.price}`}
                   </button>
-
-                  {/* Stamp footer */}
                   <div style={{
                     marginTop: '14px',
                     paddingTop: '10px',
@@ -354,16 +350,10 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                     gap: '10px',
                   }}>
                     <div style={{
-                      width: '28px',
-                      height: '28px',
-                      background: '#c0392b',
-                      color: '#fff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: 'bold',
-                      fontSize: '0.9rem',
-                      flexShrink: 0,
+                      width: '28px', height: '28px',
+                      background: '#c0392b', color: '#fff',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontWeight: 'bold', fontSize: '0.9rem', flexShrink: 0,
                     }}>
                       {artistName.charAt(0).toUpperCase()}
                     </div>
@@ -374,15 +364,8 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                 </div>
               )}
 
-              {/* Divider between cards */}
               {index < artworks.length - 1 && (
-                <div style={{
-                  textAlign: 'center',
-                  color: '#aaa',
-                  fontSize: '0.7rem',
-                  letterSpacing: '0.3em',
-                  margin: '8px 0 16px',
-                }}>
+                <div style={{ textAlign: 'center', color: '#aaa', fontSize: '0.7rem', letterSpacing: '0.3em', margin: '8px 0 16px' }}>
                   · · ·
                 </div>
               )}
@@ -392,23 +375,15 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
 
         {/* Page footer */}
         <div style={{
-          marginTop: '48px',
-          paddingTop: '16px',
+          marginTop: '48px', paddingTop: '16px',
           borderTop: '2px solid #1a1a1a',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
+          display: 'flex', alignItems: 'center', gap: '12px',
         }}>
           <div style={{
-            width: '36px',
-            height: '36px',
-            background: '#c0392b',
-            color: '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 'bold',
-            fontSize: '1rem',
+            width: '36px', height: '36px',
+            background: '#c0392b', color: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontWeight: 'bold', fontSize: '1rem',
           }}>
             {artistName.charAt(0).toUpperCase()}
           </div>
@@ -417,9 +392,7 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
               {artistName}
             </div>
             {artistBio && (
-              <div style={{ fontSize: '0.75rem', color: '#666', fontStyle: 'italic' }}>
-                {artistBio}
-              </div>
+              <div style={{ fontSize: '0.75rem', color: '#666', fontStyle: 'italic' }}>{artistBio}</div>
             )}
           </div>
         </div>
