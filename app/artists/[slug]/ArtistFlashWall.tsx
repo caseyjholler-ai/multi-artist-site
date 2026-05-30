@@ -25,7 +25,7 @@ const MARGIN_TILE_SVG = encodeURIComponent(
   '<svg width="56" height="480" viewBox="0 0 56 480" fill="none" xmlns="http://www.w3.org/2000/svg">' +
   '<circle cx="28" cy="30" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
   '<circle cx="28" cy="30" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
-  '<g transform="translate(10,80)" opacity="0.22">' +
+  '<g transform="translate(10,80)" opacity="0.45">' +
     '<ellipse cx="18" cy="17" rx="13" ry="14" stroke="%231a1a1a" stroke-width="1.5"/>' +
     '<rect x="10" y="28" width="16" height="10" rx="2" stroke="%231a1a1a" stroke-width="1.5"/>' +
     '<line x1="18" y1="28" x2="18" y2="38" stroke="%231a1a1a" stroke-width="1.2"/>' +
@@ -36,7 +36,7 @@ const MARGIN_TILE_SVG = encodeURIComponent(
   '</g>' +
   '<circle cx="28" cy="150" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
   '<circle cx="28" cy="150" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
-  '<g transform="translate(12,195)" opacity="0.22">' +
+  '<g transform="translate(12,195)" opacity="0.45">' +
     '<line x1="16" y1="20" x2="16" y2="58" stroke="%231a1a1a" stroke-width="1.5"/>' +
     '<path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>' +
     '<path d="M12 32 Q8 30 10 34" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>' +
@@ -44,14 +44,14 @@ const MARGIN_TILE_SVG = encodeURIComponent(
   '</g>' +
   '<circle cx="28" cy="280" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
   '<circle cx="28" cy="280" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
-  '<g transform="translate(16,315)" opacity="0.22">' +
+  '<g transform="translate(16,315)" opacity="0.45">' +
     '<path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="%231a1a1a" stroke-width="1.3" fill="none"/>' +
     '<rect x="6" y="14" width="12" height="4" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>' +
     '<rect x="9" y="18" width="6" height="8" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>' +
   '</g>' +
   '<circle cx="28" cy="400" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
   '<circle cx="28" cy="400" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
-  '<g transform="translate(13,422)" opacity="0.22">' +
+  '<g transform="translate(13,422)" opacity="0.45">' +
     '<path d="M15 50 Q5 43 15 35 Q25 27 15 19 Q5 11 15 3 Q20 -1 22 3" stroke="%231a1a1a" stroke-width="1.5" fill="none"/>' +
     '<ellipse cx="22" cy="1" rx="4" ry="3" stroke="%231a1a1a" stroke-width="1.2"/>' +
     '<circle cx="21" cy="1" r="1" fill="%231a1a1a"/>' +
