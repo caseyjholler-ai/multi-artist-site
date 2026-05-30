@@ -18,70 +18,45 @@ interface Props {
   artworks: Artwork[]
 }
 
-// SVG tile for the margin — one repeating unit:
-// hole → skull → hole → rose → hole → dagger → hole → snake
-// Each unit is 480px tall, tiling vertically forever
 const MARGIN_TILE_HEIGHT = 480
 
-const MarginTileSVG = () => (
-  <svg
-    width="56"
-    height={MARGIN_TILE_HEIGHT}
-    viewBox={`0 0 56 ${MARGIN_TILE_HEIGHT}`}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ display: 'block' }}
-  >
-    {/* ── Hole 1 at y=20 ── */}
-    <circle cx="28" cy="30" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
-    <circle cx="28" cy="30" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
-
-    {/* ── Skull at y=80 ── */}
-    <g transform="translate(10, 80)" opacity="0.22">
-      <ellipse cx="18" cy="17" rx="13" ry="14" stroke="#1a1a1a" strokeWidth="1.5"/>
-      <rect x="10" y="28" width="16" height="10" rx="2" stroke="#1a1a1a" strokeWidth="1.5"/>
-      <line x1="18" y1="28" x2="18" y2="38" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <line x1="10" y1="33" x2="26" y2="33" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <circle cx="13" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <circle cx="23" cy="16" r="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <path d="M15 23 Q18 26 21 23" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-    </g>
-
-    {/* ── Hole 2 at y=150 ── */}
-    <circle cx="28" cy="150" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
-    <circle cx="28" cy="150" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
-
-    {/* ── Rose at y=200 ── */}
-    <g transform="translate(12, 200)" opacity="0.22">
-      <line x1="16" y1="20" x2="16" y2="58" stroke="#1a1a1a" strokeWidth="1.5"/>
-      <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-      <path d="M12 32 Q8 30 10 34" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-      <path d="M20 44 Q24 42 22 46" stroke="#1a1a1a" strokeWidth="1.2" fill="none"/>
-    </g>
-
-    {/* ── Hole 3 at y=280 ── */}
-    <circle cx="28" cy="280" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
-    <circle cx="28" cy="280" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
-
-    {/* ── Dagger at y=318 ── */}
-    <g transform="translate(16, 318)" opacity="0.22">
-      <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="#1a1a1a" strokeWidth="1.3" fill="none"/>
-      <rect x="6" y="14" width="12" height="4" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
-      <rect x="9" y="18" width="6" height="8" rx="1" stroke="#1a1a1a" strokeWidth="1.3"/>
-    </g>
-
-    {/* ── Hole 4 at y=400 ── */}
-    <circle cx="28" cy="400" r="13" fill="#e8e0d0" stroke="#c8bfae" strokeWidth="1"/>
-    <circle cx="28" cy="400" r="12" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5"/>
-
-    {/* ── Snake at y=425 ── */}
-    <g transform="translate(13, 425)" opacity="0.22">
-      <path d="M15 50 Q5 43 15 35 Q25 27 15 19 Q5 11 15 3 Q20 -1 22 3" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-      <ellipse cx="22" cy="1" rx="4" ry="3" stroke="#1a1a1a" strokeWidth="1.2"/>
-      <path d="M20 -1 L18 -3 M24 -1 L26 -3" stroke="#1a1a1a" strokeWidth="1"/>
-      <circle cx="21" cy="1" r="1" fill="#1a1a1a"/>
-    </g>
-  </svg>
+// SVG tile as a plain string constant — no nested backticks
+const MARGIN_TILE_SVG = encodeURIComponent(
+  '<svg width="56" height="480" viewBox="0 0 56 480" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+  '<circle cx="28" cy="30" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
+  '<circle cx="28" cy="30" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
+  '<g transform="translate(10,80)" opacity="0.22">' +
+    '<ellipse cx="18" cy="17" rx="13" ry="14" stroke="%231a1a1a" stroke-width="1.5"/>' +
+    '<rect x="10" y="28" width="16" height="10" rx="2" stroke="%231a1a1a" stroke-width="1.5"/>' +
+    '<line x1="18" y1="28" x2="18" y2="38" stroke="%231a1a1a" stroke-width="1.2"/>' +
+    '<line x1="10" y1="33" x2="26" y2="33" stroke="%231a1a1a" stroke-width="1.2"/>' +
+    '<circle cx="13" cy="16" r="3" stroke="%231a1a1a" stroke-width="1.2"/>' +
+    '<circle cx="23" cy="16" r="3" stroke="%231a1a1a" stroke-width="1.2"/>' +
+    '<path d="M15 23 Q18 26 21 23" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>' +
+  '</g>' +
+  '<circle cx="28" cy="150" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
+  '<circle cx="28" cy="150" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
+  '<g transform="translate(12,195)" opacity="0.22">' +
+    '<line x1="16" y1="20" x2="16" y2="58" stroke="%231a1a1a" stroke-width="1.5"/>' +
+    '<path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>' +
+    '<path d="M12 32 Q8 30 10 34" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>' +
+    '<path d="M20 44 Q24 42 22 46" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>' +
+  '</g>' +
+  '<circle cx="28" cy="280" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
+  '<circle cx="28" cy="280" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
+  '<g transform="translate(16,315)" opacity="0.22">' +
+    '<path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="%231a1a1a" stroke-width="1.3" fill="none"/>' +
+    '<rect x="6" y="14" width="12" height="4" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>' +
+    '<rect x="9" y="18" width="6" height="8" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>' +
+  '</g>' +
+  '<circle cx="28" cy="400" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>' +
+  '<circle cx="28" cy="400" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>' +
+  '<g transform="translate(13,422)" opacity="0.22">' +
+    '<path d="M15 50 Q5 43 15 35 Q25 27 15 19 Q5 11 15 3 Q20 -1 22 3" stroke="%231a1a1a" stroke-width="1.5" fill="none"/>' +
+    '<ellipse cx="22" cy="1" rx="4" ry="3" stroke="%231a1a1a" stroke-width="1.2"/>' +
+    '<circle cx="21" cy="1" r="1" fill="%231a1a1a"/>' +
+  '</g>' +
+  '</svg>'
 )
 
 export default function ArtistFlashWall({ artistName, artistBio, artworks }: Props) {
@@ -119,14 +94,7 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
     <div style={{
       minHeight: '100vh',
       background: '#f5f0e8',
-      backgroundImage: `
-        repeating-linear-gradient(
-          transparent,
-          transparent 31px,
-          #b8c4d4 31px,
-          #b8c4d4 32px
-        )
-      `,
+      backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, #b8c4d4 31px, #b8c4d4 32px)',
       backgroundSize: '100% 32px',
       backgroundPosition: '0 60px',
       position: 'relative',
@@ -134,7 +102,7 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
       display: 'flex',
     }}>
 
-      {/* Left margin column — CSS tiling, fills full page height */}
+      {/* Left margin column — scrolls with page, tiles forever */}
       <div style={{
         width: '72px',
         flexShrink: 0,
@@ -152,50 +120,16 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
           background: '#c0392b',
           opacity: 0.5,
         }} />
-        {/* Tiling SVG background — repeats forever down the page */}
+        {/* Tiling SVG — holes + doodles repeat forever */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: '2px',
           bottom: 0,
-          backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(`<svg width="56" height="${MARGIN_TILE_HEIGHT}" viewBox="0 0 56 ${MARGIN_TILE_HEIGHT}" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="28" cy="30" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
-  <circle cx="28" cy="30" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-  <g transform="translate(10,80)" opacity="0.22">
-    <ellipse cx="18" cy="17" rx="13" ry="14" stroke="%231a1a1a" stroke-width="1.5"/>
-    <rect x="10" y="28" width="16" height="10" rx="2" stroke="%231a1a1a" stroke-width="1.5"/>
-    <line x1="18" y1="28" x2="18" y2="38" stroke="%231a1a1a" stroke-width="1.2"/>
-    <line x1="10" y1="33" x2="26" y2="33" stroke="%231a1a1a" stroke-width="1.2"/>
-    <circle cx="13" cy="16" r="3" stroke="%231a1a1a" stroke-width="1.2"/>
-    <circle cx="23" cy="16" r="3" stroke="%231a1a1a" stroke-width="1.2"/>
-    <path d="M15 23 Q18 26 21 23" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
-  </g>
-  <circle cx="28" cy="150" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
-  <circle cx="28" cy="150" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-  <g transform="translate(12,200)" opacity="0.22">
-    <line x1="16" y1="20" x2="16" y2="58" stroke="%231a1a1a" stroke-width="1.5"/>
-    <path d="M16 20 Q8 14 10 8 Q16 4 16 12 Q16 4 22 8 Q24 14 16 20Z" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
-    <path d="M12 32 Q8 30 10 34" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
-    <path d="M20 44 Q24 42 22 46" stroke="%231a1a1a" stroke-width="1.2" fill="none"/>
-  </g>
-  <circle cx="28" cy="280" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
-  <circle cx="28" cy="280" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-  <g transform="translate(16,318)" opacity="0.22">
-    <path d="M12 2 L16 14 L12 52 L8 14 Z" stroke="%231a1a1a" stroke-width="1.3" fill="none"/>
-    <rect x="6" y="14" width="12" height="4" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>
-    <rect x="9" y="18" width="6" height="8" rx="1" stroke="%231a1a1a" stroke-width="1.3"/>
-  </g>
-  <circle cx="28" cy="400" r="13" fill="%23e8e0d0" stroke="%23c8bfae" stroke-width="1"/>
-  <circle cx="28" cy="400" r="12" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-  <g transform="translate(13,425)" opacity="0.22">
-    <path d="M15 50 Q5 43 15 35 Q25 27 15 19 Q5 11 15 3 Q20 -1 22 3" stroke="%231a1a1a" stroke-width="1.5" fill="none"/>
-    <ellipse cx="22" cy="1" rx="4" ry="3" stroke="%231a1a1a" stroke-width="1.2"/>
-    <circle cx="21" cy="1" r="1" fill="%231a1a1a"/>
-  </g>
-</svg>`)}`)`,
+          backgroundImage: 'url("data:image/svg+xml,' + MARGIN_TILE_SVG + '")',
           backgroundRepeat: 'repeat-y',
-          backgroundSize: `56px ${MARGIN_TILE_HEIGHT}px`,
+          backgroundSize: '56px ' + MARGIN_TILE_HEIGHT + 'px',
           backgroundPosition: '0 0',
         }} />
       </div>
@@ -339,7 +273,7 @@ export default function ArtistFlashWall({ artistName, artistBio, artworks }: Pro
                       transition: 'background 0.2s',
                     }}
                   >
-                    {loadingId === artwork.id ? 'Redirecting to checkout...' : `Buy Now — $${artwork.price}`}
+                    {loadingId === artwork.id ? 'Redirecting to checkout...' : 'Buy Now — $' + artwork.price}
                   </button>
                   <div style={{
                     marginTop: '14px',
